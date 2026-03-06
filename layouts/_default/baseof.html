@@ -13,14 +13,16 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="ООО УК «Финстар Капитал»">
   <meta property="og:description" content="Финстар Капитал: управление инвестициями. Паевые инвестиционные фонды. Индивидуальные стратегии.">
-  <meta property="og:url" content="https://finstar-capital.ru">
-  <meta property="og:image" content="https://finstar-capital.ru/og-image.jpg">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:image" content="{{ "og-image.jpg" | absURL }}">
+  <meta property="og:image:secure_url" content="{{ "og-image.jpg" | absURL }}">
+  <meta property="og:image:type" content="image/jpeg">
 
   <!-- Twitter / X preview -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ООО УК «Финстар Капитал»">
   <meta name="twitter:description" content="Финстар Капитал: управление инвестициями. Паевые инвестиционные фонды. Индивидуальные стратегии.">
-  <meta name="twitter:image" content="https://finstar-capital.ru/og-image.jpg">
+  <meta name="twitter:image" content="{{ "og-image.jpg" | absURL }}">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/favicon.png">
