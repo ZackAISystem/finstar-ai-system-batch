@@ -3,7 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
   <title>{{ with .Title }}{{ . }}{{ else }}Finstar AI{{ end }}</title>
+
+  <!-- SEO description -->
+  <meta name="description" content="Финстар Капитал: управление инвестициями. Паевые инвестиционные фонды. Индивидуальные стратегии.">
+
+  <!-- Open Graph (Telegram / WhatsApp / LinkedIn) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ООО УК «Финстар Капитал»">
+  <meta property="og:description" content="Финстар Капитал: управление инвестициями. Паевые инвестиционные фонды. Индивидуальные стратегии.">
+  <meta property="og:url" content="https://finstar-capital.ru">
+  <meta property="og:image" content="https://finstar-capital.ru/og-image.jpg">
+
+  <!-- Twitter / X preview -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ООО УК «Финстар Капитал»">
+  <meta name="twitter:description" content="Финстар Капитал: управление инвестициями. Паевые инвестиционные фонды. Индивидуальные стратегии.">
+  <meta name="twitter:image" content="https://finstar-capital.ru/og-image.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon.png">
 
   <!-- Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,6 +32,7 @@
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}" />
+
 </head>
 
 {{/* =========================
@@ -20,6 +41,7 @@
    - Slug from folder: content/sites/<slug>/index.md -> <slug>
    - Avoids crash when .File is nil (lists, 404, etc.)
 ========================= */}}
+
 {{ $tpl := "template_1" }}
 {{ with .File }}
   {{ $slug := path.Base (strings.TrimSuffix "/" .Dir) }}
@@ -31,6 +53,8 @@
 {{ end }}
 
 <body class="tpl tpl-{{ $tpl }}">
+
   {{ block "main" . }}{{ end }}
+
 </body>
 </html>
