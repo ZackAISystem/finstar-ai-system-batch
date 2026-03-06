@@ -32,13 +32,14 @@ trap cleanup EXIT
 echo "==> Copying project into temp workspace: $BUILD_ROOT"
 mkdir -p "$BUILD_ROOT"
 
-rsync -a \
-  --exclude ".git" \
-  --exclude ".hugo_build.lock" \
-  --exclude "public" \
-  --exclude "resources" \
-  --exclude "node_modules" \
-  "$ROOT/" "$BUILD_ROOT/"
+# Копируем проект без public/resources/.git
+cp -R "$ROOT/." "$BUILD_ROOT/"
+
+rm -rf "$BUILD_ROOT/.git"
+rm -rf "$BUILD_ROOT/public"
+rm -rf "$BUILD_ROOT/resources"
+rm -rf "$BUILD_ROOT/node_modules"
+rm -f  "$BUILD_ROOT/.hugo_build.lock"
 
 # Safety checks inside temp copy
 if [ ! -d "$BUILD_ROOT/content/sites/$SITE_SLUG" ]; then
