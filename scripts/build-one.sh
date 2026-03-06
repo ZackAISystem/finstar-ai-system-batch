@@ -32,16 +32,14 @@ trap cleanup EXIT
 echo "==> Copying project into temp workspace: $BUILD_ROOT"
 mkdir -p "$BUILD_ROOT"
 
-# Копируем проект без public/resources/.git
 cp -R "$ROOT/." "$BUILD_ROOT/"
 
 rm -rf "$BUILD_ROOT/.git"
 rm -rf "$BUILD_ROOT/public"
 rm -rf "$BUILD_ROOT/resources"
 rm -rf "$BUILD_ROOT/node_modules"
-rm -f  "$BUILD_ROOT/.hugo_build.lock"
+rm -f "$BUILD_ROOT/.hugo_build.lock"
 
-# Safety checks inside temp copy
 if [ ! -d "$BUILD_ROOT/content/sites/$SITE_SLUG" ]; then
   echo "ERROR: temp copy missing content/sites/$SITE_SLUG"
   exit 1
