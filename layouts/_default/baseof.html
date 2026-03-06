@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ with .Title }}{{ . }}{{ else }}Finstar AI{{ end }}</title>
+
+  <!-- Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}" />
+</head>
+
+{{/* =========================
+   SAFE TEMPLATE RESOLVE
+   - Default: template_1
+   - Slug from folder: content/sites/<slug>/index.md -> <slug>
+   - Avoids crash when .File is nil (lists, 404, etc.)
+========================= */}}
+{{ $tpl := "template_1" }}
+{{ with .File }}
+  {{ $slug := path.Base (strings.TrimSuffix "/" .Dir) }}
+  {{ with (index site.Data.sites $slug) }}
+    {{ with .template }}
+      {{ $tpl = . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<body class="tpl tpl-{{ $tpl }}">
+  {{ block "main" . }}{{ end }}
+</body>
+</html>

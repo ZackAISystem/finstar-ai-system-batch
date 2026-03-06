@@ -1,0 +1,59 @@
+<section class="hero">
+  <div class="container hero__inner">
+
+    <!-- LEFT -->
+    <div class="hero__left">
+      <h1 class="hero__title">
+        <span class="hero__title-main">{{ .hero_title_main_agent }}</span><br>
+        <span class="hero__title-accent">{{ .hero_title_accent_agent }}</span>
+      </h1>
+
+      <div class="hero__subtitle">{{ .hero_subtitle_agent }}</div>
+      <div class="hero__desc">{{ .hero_description_agent }}</div>
+
+      <a
+        class="hero__cta js-open-lead"
+        href="{{ .hero_cta_href_fixed }}"
+        data-modal-title="{{ .contact_form_title_agent }}"
+        data-cta-text="{{ .hero_cta_button_fixed }}"
+        data-cta-color="var(--hero-cta-bg)"
+        data-source="hero"
+      >
+        {{ .hero_cta_button_fixed }}
+      </a>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="hero__right">
+      <div class="hero__media">
+
+        <!-- большой % фоном -->
+        <div class="hero__percent-bg" aria-hidden="true">%</div>
+
+        <img
+          class="hero__image"
+          src="{{ .hero_image_main_src_fixed }}"
+          alt="График и монеты"
+          loading="eager"
+        >
+
+        <!-- Fact card -->
+        <div class="hero__fact">
+          <img
+            class="hero__fact-icon"
+            src="{{ .hero_image_percent_src_fixed }}"
+            alt=""
+            aria-hidden="true"
+            loading="eager"
+          >
+          <div class="hero__fact-text">
+            <div class="hero__fact-value">{{ .hero_fact_value_fixed }}</div>
+            <div class="hero__fact-label">{{ .hero_fact_label_fixed }}</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>

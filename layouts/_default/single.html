@@ -1,0 +1,12 @@
+{{/* Global fallback single template */}}
+{{ define "main" }}
+  {{/* If this is our "sites" section, use the dynamic engine */}}
+  {{ if eq .Section "sites" }}
+    {{ partial "sites_dynamic_single.html" . }}
+  {{ else }}
+    <div class="container" style="padding:40px 20px">
+      <h1>{{ .Title }}</h1>
+      {{ .Content }}
+    </div>
+  {{ end }}
+{{ end }}

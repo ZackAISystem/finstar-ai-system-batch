@@ -1,0 +1,44 @@
+<footer class="site-footer" id="contact">
+  <div class="container site-footer__container">
+
+    <!-- TOP ROW -->
+    <div class="site-footer__top">
+      <!-- LEFT: logo -->
+      <div class="site-footer__brand">
+        <img
+          class="site-footer__logo"
+          src="/img/template_1/footer/logo-finstar.png"
+          alt="Финстар Капитал"
+          loading="lazy"
+        >
+      </div>
+
+      <!-- CENTER: address -->
+      <div class="site-footer__address">
+        {{ .footer_address_fixed }}
+      </div>
+
+      <!-- RIGHT: phone + email -->
+      <div class="site-footer__contacts">
+        <div class="site-footer__phone">{{ .footer_phone_fixed }}</div>
+        <div class="site-footer__email">{{ .footer_email_fixed }}</div>
+      </div>
+    </div>
+
+    <!-- SLOGAN -->
+    <div class="site-footer__slogan">
+      {{ .footer_slogan_fixed }}
+    </div>
+
+    <!-- LICENSE -->
+    <div class="site-footer__license">
+      {{ .footer_license_fixed }}
+    </div>
+
+    <!-- DISCLAIMER -->
+    <div class="site-footer__disclaimer">
+      {{ .footer_disclaimer_fixed }}
+    </div>
+
+  </div>
+</footer>

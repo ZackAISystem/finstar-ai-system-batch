@@ -1,0 +1,4 @@
+{
+  "name": "template_2",
+  "blocks": ["header","hero","advantages","why_us","investment","contact_form","footer"]
+}

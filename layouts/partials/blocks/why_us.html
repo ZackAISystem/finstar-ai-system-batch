@@ -1,0 +1,90 @@
+<section class="whyus" id="why">
+  <div class="container whyus__container">
+
+    <h2 class="whyus__title">{{ .whyus_title_fixed }}</h2>
+
+    <div class="whyus__grid">
+
+      <!-- CARD 1 -->
+      <article class="whyus-card whyus-card--blue">
+        <!-- маленькая иконка -->
+        <img
+          class="whyus-card__mini"
+          src="/img/template_1/whyus/icon-magnifier.png"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+        >
+
+        <h3 class="whyus-card__title">{{ .whyus_1_title_fixed }}</h3>
+
+        <!-- ✅ bullets from multiline text -->
+        <ul class="whyus-card__list">
+          {{ range (split (replace .whyus_1_text_fixed "\r\n" "\n") "\n") }}
+            {{- if . -}}<li>{{ . }}</li>{{- end -}}
+          {{ end }}
+        </ul>
+
+        <a
+          class="whyus-card__cta js-open-lead"
+          href="#investment"
+          data-source="whyus_1"
+          data-modal-title="Преимущества ЗПИФ «Залоговые займы»"
+          data-cta-text="{{ .whyus_1_cta_fixed }}"
+          data-cta-color="var(--whyus-cta-bg)"
+        >
+          {{ .whyus_1_cta_fixed }}
+        </a>
+
+        <!-- большая монетка -->
+        <img
+          class="whyus-card__coin"
+          src="/img/template_1/whyus/coin-ring.png"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+        >
+      </article>
+
+      <!-- CARD 2 -->
+      <article class="whyus-card whyus-card--mint">
+        <img
+          class="whyus-card__mini"
+          src="/img/template_1/whyus/icon-star.png"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+        >
+
+        <h3 class="whyus-card__title">{{ .whyus_2_title_fixed }}</h3>
+
+        <!-- ✅ bullets from multiline text -->
+        <ul class="whyus-card__list">
+          {{ range (split (replace .whyus_2_text_fixed "\r\n" "\n") "\n") }}
+            {{- if . -}}<li>{{ . }}</li>{{- end -}}
+          {{ end }}
+        </ul>
+
+        <a
+          class="whyus-card__cta js-open-lead"
+          href="#investment"
+          data-source="whyus_2"
+          data-modal-title="Преимущества ЗПИФ «Залоговые займы»"
+          data-cta-text="{{ .whyus_2_cta_fixed }}"
+          data-cta-color="var(--whyus-cta-bg)"
+        >
+          {{ .whyus_2_cta_fixed }}
+        </a>
+
+        <img
+          class="whyus-card__coin"
+          src="/img/template_1/whyus/coin-side.png"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+        >
+      </article>
+
+    </div>
+  </div>
+</section>
