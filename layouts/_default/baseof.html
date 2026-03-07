@@ -39,19 +39,40 @@
 
 {{/* =========================
    SAFE TEMPLATE RESOLVE
-   - Default: template_1
-   - Slug from folder: content/sites/<slug>/index.md -> <slug>
-   - Avoids crash when .File is nil (lists, 404, etc.)
+   Priority:
+   1. .Params.template
+   2. data/sites by .Params.slug
+   3. fallback template_1
 ========================= */}}
 
 {{ $tpl := "template_1" }}
-{{ with .File }}
-  {{ $slug := path.Base (strings.TrimSuffix "/" .Dir) }}
-  {{ with (index site.Data.sites $slug) }}
-    {{ with .template }}
-      {{ $tpl = . }}
+
+{{ with .Params.template }}
+  {{ $tpl = . }}
+{{ else }}
+
+  {{ $slug := "" }}
+
+  {{ with .Params.slug }}
+    {{ $slug = . }}
+  {{ else }}
+    {{ with .File }}
+      {{ $slug = path.Base (strings.TrimSuffix "/" .Dir) }}
     {{ end }}
   {{ end }}
+
+  {{ if $slug }}
+    {{ with (index site.Data.sites $slug) }}
+      {{ with .template }}
+        {{ $tpl = . }}
+      {{ else }}
+        {{ with .template_auto }}
+          {{ $tpl = . }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
 {{ end }}
 
 <body class="tpl tpl-{{ $tpl }}">

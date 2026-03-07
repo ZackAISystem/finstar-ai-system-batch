@@ -59,11 +59,31 @@ find "$BUILD_ROOT/data/sites" -type f -name "*.json" ! -name "${SITE_SLUG}.json"
 echo "==> Rebuilding content/_index.md from selected slug"
 cp "$BUILD_ROOT/content/sites/$SITE_SLUG/index.md" "$BUILD_ROOT/content/_index.md"
 
+echo "==> Resolving domain from JSON"
+SITE_DOMAIN="$(python3 - <<PY
+import json
+with open("$BUILD_ROOT/data/sites/$SITE_SLUG.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+print(data.get("domain_russia", "").strip())
+PY
+)"
+
+if [ -z "$SITE_DOMAIN" ]; then
+  echo "ERROR: domain_russia not found in data/sites/$SITE_SLUG.json"
+  exit 1
+fi
+
+echo "==> Using baseURL: https://$SITE_DOMAIN/"
+
 echo "==> Cleaning previous public output"
 rm -rf "$ROOT/public"
 
 echo "==> Running hugo --minify"
-hugo --source "$BUILD_ROOT" --destination "$ROOT/public" --minify
+hugo \
+  --source "$BUILD_ROOT" \
+  --destination "$ROOT/public" \
+  --baseURL "https://$SITE_DOMAIN/" \
+  --minify
 
 echo "==> Cleaning extra Hugo outputs"
 rm -rf "$ROOT/public/sites"
