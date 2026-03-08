@@ -7,15 +7,33 @@ export async function onRequest(context) {
   }
 
   const slug = host.replace(/\.ru$/, "");
-
   let pathname = url.pathname;
 
-  if (pathname === "/") {
-    pathname = "/index.html";
-  } else if (pathname.endsWith("/")) {
-    pathname = pathname + "index.html";
+  // Нормализуем path
+  if (!pathname || pathname === "") {
+    pathname = "/";
   }
 
-  const rewritten = new URL(`/${slug}${pathname}`, url.origin);
+  // Если браузер уже попал на /slug или /slug/, убираем slug из path,
+  // чтобы не получилось /slug/slug/
+  if (pathname === `/${slug}` || pathname === `/${slug}/`) {
+    pathname = "/";
+  } else if (pathname.startsWith(`/${slug}/`)) {
+    pathname = pathname.slice(slug.length + 1); // убираем "/slug"
+    if (!pathname.startsWith("/")) {
+      pathname = "/" + pathname;
+    }
+  }
+
+  // Для главной страницы отдаём папку сайта, а не index.html,
+  // чтобы не провоцировать редирект от ASSETS
+  let assetPath;
+  if (pathname === "/") {
+    assetPath = `/${slug}/`;
+  } else {
+    assetPath = `/${slug}${pathname}`;
+  }
+
+  const rewritten = new URL(assetPath, url.origin);
   return context.env.ASSETS.fetch(new Request(rewritten.toString(), context.request));
 }
