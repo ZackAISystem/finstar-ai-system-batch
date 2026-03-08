@@ -7,33 +7,48 @@ export async function onRequest(context) {
   }
 
   const slug = host.replace(/\.ru$/, "");
-  let pathname = url.pathname;
+  let pathname = url.pathname || "/";
 
-  // Нормализуем path
-  if (!pathname || pathname === "") {
-    pathname = "/";
+  let assetPath;
+
+  // Главная домена
+  if (pathname === "/") {
+    assetPath = `/${slug}/index.html`;
   }
-
-  // Если браузер уже попал на /slug или /slug/, убираем slug из path,
-  // чтобы не получилось /slug/slug/
-  if (pathname === `/${slug}` || pathname === `/${slug}/`) {
-    pathname = "/";
-  } else if (pathname.startsWith(`/${slug}/`)) {
-    pathname = pathname.slice(slug.length + 1); // убираем "/slug"
-    if (!pathname.startsWith("/")) {
-      pathname = "/" + pathname;
+  // Если браузер уже попал на /slug или /slug/
+  else if (pathname === `/${slug}` || pathname === `/${slug}/`) {
+    assetPath = `/${slug}/index.html`;
+  }
+  // Если браузер уже на /slug/что-то
+  else if (pathname.startsWith(`/${slug}/`)) {
+    assetPath = pathname;
+    if (assetPath.endsWith("/")) {
+      assetPath += "index.html";
+    }
+  }
+  // Любой другой путь внутри сайта
+  else {
+    assetPath = `/${slug}${pathname}`;
+    if (assetPath.endsWith("/")) {
+      assetPath += "index.html";
     }
   }
 
-  // Для главной страницы отдаём папку сайта, а не index.html,
-  // чтобы не провоцировать редирект от ASSETS
-  let assetPath;
-  if (pathname === "/") {
-    assetPath = `/${slug}/`;
-  } else {
-    assetPath = `/${slug}${pathname}`;
+  let response = await context.env.ASSETS.fetch(
+    new Request(new URL(assetPath, url.origin).toString(), context.request)
+  );
+
+  // Если ASSETS всё же вернул редирект — тихо догоняем его сами,
+  // чтобы браузер не менял адрес на /slug/
+  if ([301, 302, 307, 308].includes(response.status)) {
+    const location = response.headers.get("Location");
+    if (location) {
+      const followUrl = new URL(location, url.origin);
+      response = await context.env.ASSETS.fetch(
+        new Request(followUrl.toString(), context.request)
+      );
+    }
   }
 
-  const rewritten = new URL(assetPath, url.origin);
-  return context.env.ASSETS.fetch(new Request(rewritten.toString(), context.request));
+  return response;
 }
