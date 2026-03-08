@@ -38,8 +38,8 @@ export async function onRequest(context) {
     new Request(new URL(assetPath, url.origin).toString(), context.request)
   );
 
-  // Если ASSETS всё же вернул редирект — тихо догоняем его сами,
-  // чтобы браузер не менял адрес на /slug/
+  // Если ASSETS вернул редирект — догоняем его внутри worker,
+  // чтобы браузер не менял URL на /slug/
   if ([301, 302, 307, 308].includes(response.status)) {
     const location = response.headers.get("Location");
     if (location) {

@@ -160,17 +160,50 @@ export async function onRequest(context) {
   }
 
   const slug = host.replace(/\.ru$/, "");
+  let pathname = url.pathname || "/";
 
-  let pathname = url.pathname;
+  let assetPath;
 
+  // Главная домена
   if (pathname === "/") {
-    pathname = "/index.html";
-  } else if (pathname.endsWith("/")) {
-    pathname = pathname + "index.html";
+    assetPath = `/${slug}/index.html`;
+  }
+  // Если браузер уже попал на /slug или /slug/
+  else if (pathname === `/${slug}` || pathname === `/${slug}/`) {
+    assetPath = `/${slug}/index.html`;
+  }
+  // Если браузер уже на /slug/что-то
+  else if (pathname.startsWith(`/${slug}/`)) {
+    assetPath = pathname;
+    if (assetPath.endsWith("/")) {
+      assetPath += "index.html";
+    }
+  }
+  // Любой другой путь внутри сайта
+  else {
+    assetPath = `/${slug}${pathname}`;
+    if (assetPath.endsWith("/")) {
+      assetPath += "index.html";
+    }
   }
 
-  const rewritten = new URL(`/${slug}${pathname}`, url.origin);
-  return context.env.ASSETS.fetch(new Request(rewritten.toString(), context.request));
+  let response = await context.env.ASSETS.fetch(
+    new Request(new URL(assetPath, url.origin).toString(), context.request)
+  );
+
+  // Если ASSETS вернул редирект — догоняем его внутри worker,
+  // чтобы браузер не менял URL на /slug/
+  if ([301, 302, 307, 308].includes(response.status)) {
+    const location = response.headers.get("Location");
+    if (location) {
+      const followUrl = new URL(location, url.origin);
+      response = await context.env.ASSETS.fetch(
+        new Request(followUrl.toString(), context.request)
+      );
+    }
+  }
+
+  return response;
 }
 EOF
 
