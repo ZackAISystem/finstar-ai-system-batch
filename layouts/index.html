@@ -1,52 +1,12 @@
 {{ define "main" }}
-
-  {{/* Для home берём slug из front matter content/_index.md */}}
-  {{ $slug := (printf "%v" .Params.slug) | strings.TrimSpace }}
-
-  {{ if or (not $slug) (eq $slug "<nil>") }}
-    <div class="container" style="padding:40px 20px">
-      <h1>Missing slug</h1>
-      <p>Cannot detect slug on homepage.</p>
+  <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;background:#ffffff;">
+    <div style="max-width:720px;text-align:center;font-family:Arial,sans-serif;">
+      <h1 style="margin:0 0 16px;font-size:40px;line-height:1.2;color:#111827;">
+        Technical maintenance
+      </h1>
+      <p style="margin:0;font-size:18px;line-height:1.7;color:#4b5563;">
+        We are currently updating the system. Please check back shortly.
+      </p>
     </div>
-  {{ else }}
-
-    {{ $site := index .Site.Data.sites $slug }}
-
-    {{ if not $site }}
-      <div class="container" style="padding:40px 20px">
-        <h1>Site data not found</h1>
-        <p>No file in <code>data/sites/{{ $slug }}.json</code></p>
-      </div>
-    {{ else }}
-
-      {{/* template: приоритет = front matter, затем data */}}
-      {{ $tplName := (printf "%v" (.Params.template | default $site.template_auto | default $site.template | default "template_1")) | strings.TrimSpace }}
-      {{ $tpl := index .Site.Data.templates $tplName }}
-
-      {{ if not $tpl }}
-        <div class="container" style="padding:40px 20px">
-          <h1>Template not found</h1>
-          <p>No file in <code>data/templates/{{ $tplName }}.json</code></p>
-        </div>
-      {{ else }}
-
-        {{ range $tpl.blocks }}
-          {{ $b := (printf "%v" .) | strings.TrimSpace }}
-          {{ if and $b (ne $b "<nil>") }}
-            {{ partial (printf "blocks/%s.html" $b) $site }}
-          {{ else }}
-            <div class="container" style="padding:20px">
-              <pre style="padding:12px;background:#fff7cc;border:1px solid #f2c200;border-radius:10px;white-space:pre-wrap">
-WARN: empty block name in template {{ $tplName }} (data/templates/{{ $tplName }}.json)
-              </pre>
-            </div>
-          {{ end }}
-        {{ end }}
-
-        {{ partial "lead-modal.html" $site }}
-
-      {{ end }}
-    {{ end }}
-  {{ end }}
-
+  </section>
 {{ end }}
