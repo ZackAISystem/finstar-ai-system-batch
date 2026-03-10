@@ -3,81 +3,42 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Technical maintenance</title>
 
-  <title>{{ with .Title }}{{ . }}{{ else }}Finstar AI{{ end }}</title>
-
-  <!-- SEO description -->
-  <meta name="description" content="Финстар Капитал: управление инвестициями. Паевые инвестиционные фонды. Индивидуальные стратегии.">
-
-  <!-- Open Graph (Telegram / WhatsApp / LinkedIn) -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="ООО УК «Финстар Капитал»">
-  <meta property="og:description" content="Финстар Капитал: управление инвестициями. Паевые инвестиционные фонды. Индивидуальные стратегии.">
-  <meta property="og:url" content="{{ .Permalink }}">
-  <meta property="og:image" content="{{ "og-image.jpg" | absURL }}">
-  <meta property="og:image:secure_url" content="{{ "og-image.jpg" | absURL }}">
-  <meta property="og:image:type" content="image/jpeg">
-
-  <!-- Twitter / X preview -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ООО УК «Финстар Капитал»">
-  <meta name="twitter:description" content="Финстар Капитал: управление инвестициями. Паевые инвестиционные фонды. Индивидуальные стратегии.">
-  <meta name="twitter:image" content="{{ "og-image.jpg" | absURL }}">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favicon.png">
-
-  <!-- Montserrat -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}" />
-
+  <style>
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px 20px;
+      background:#ffffff;
+      font-family:Arial,sans-serif;
+      color:#111827;
+      text-align:center;
+    }
+    .box{
+      max-width:720px;
+    }
+    h1{
+      margin:0 0 16px;
+      font-size:40px;
+      line-height:1.2;
+    }
+    p{
+      margin:0;
+      font-size:18px;
+      line-height:1.7;
+      color:#4b5563;
+    }
+  </style>
 </head>
-
-{{/* =========================
-   SAFE TEMPLATE RESOLVE
-   Priority:
-   1. .Params.template
-   2. data/sites by .Params.slug
-   3. fallback template_1
-========================= */}}
-
-{{ $tpl := "template_1" }}
-
-{{ with .Params.template }}
-  {{ $tpl = . }}
-{{ else }}
-
-  {{ $slug := "" }}
-
-  {{ with .Params.slug }}
-    {{ $slug = . }}
-  {{ else }}
-    {{ with .File }}
-      {{ $slug = path.Base (strings.TrimSuffix "/" .Dir) }}
-    {{ end }}
-  {{ end }}
-
-  {{ if $slug }}
-    {{ with (index site.Data.sites $slug) }}
-      {{ with .template }}
-        {{ $tpl = . }}
-      {{ else }}
-        {{ with .template_auto }}
-          {{ $tpl = . }}
-        {{ end }}
-      {{ end }}
-    {{ end }}
-  {{ end }}
-
-{{ end }}
-
-<body class="tpl tpl-{{ $tpl }}">
-
-  {{ block "main" . }}{{ end }}
-
+<body>
+  <div class="box">
+    <h1>Technical maintenance</h1>
+    <p>We are currently updating the system. Please check back shortly.</p>
+  </div>
 </body>
 </html>
