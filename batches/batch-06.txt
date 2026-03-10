@@ -1,3 +1,4 @@
+investirovaniepensionnyy
 investirovatbez
 investirovatbiznesa
 investirovatcherez1
@@ -65,4 +66,3 @@ vygodneefond
 vygodneestudiya
 vyytizakrytogo
 zpifprotiv7
-investirovaniepensionnyy
